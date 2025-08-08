@@ -1,0 +1,60 @@
+{
+  "app": {
+    "title": "Rentline",
+    "logout": "Log out"
+  },
+  "auth": {
+    "login": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "registerOrg": "Register Organization",
+    "displayName": "Display name",
+    "orgName": "Organization name",
+    "orgType": "Organization type",
+    "landlord": "Landlord",
+    "agency": "Agency",
+    "tenant": "Tenant",
+    "acceptInvite": "Accept Invite",
+    "haveAccount": "Already have an account? Log in"
+  },
+  "lang": {
+    "language": "Language"
+  },
+  "theme": {
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "onboarding": {
+    "title": "Welcome to Rentline",
+    "landlordCta": "I am a Landlord / Agency",
+    "tenantCta": "I am a Tenant"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "properties": "Properties",
+    "units": "Units",
+    "leases": "Leases",
+    "maintenance": "Maintenance",
+    "tenants": "Tenants",
+    "invites": "Invites",
+    "settings": "Settings"
+  },
+  "placeholder": {
+    "comingSoon": "This page is prepared for future functionality.",
+    "propertiesDesc": "Manage properties: create, edit, delete, and upload images.",
+    "unitsDesc": "Manage units within a property, and their attributes.",
+    "leasesDesc": "Manage leases, prevent overlapping contracts per unit.",
+    "maintenanceDesc": "Submit and track maintenance requests.",
+    "tenantsDesc": "Manage tenants in your organization.",
+    "invitesDesc": "Invite tenants to your organization."
+  },
+  "dashboard": {
+    "org": "Organization",
+    "type": "Type",
+    "properties": "Properties",
+    "units": "Units",
+    "view": "View"
+  }
+}

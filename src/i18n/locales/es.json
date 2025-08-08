@@ -1,0 +1,60 @@
+{
+  "app": {
+    "title": "Rentline",
+    "logout": "Cerrar sesi\u00f3n"
+  },
+  "auth": {
+    "login": "Iniciar sesi\u00f3n",
+    "email": "Correo",
+    "password": "Contrase\u00f1a",
+    "registerOrg": "Registrar Organizaci\u00f3n",
+    "displayName": "Nombre para mostrar",
+    "orgName": "Nombre de la organizaci\u00f3n",
+    "orgType": "Tipo de organizaci\u00f3n",
+    "landlord": "Propietario",
+    "agency": "Agencia",
+    "tenant": "Inquilino",
+    "acceptInvite": "Aceptar invitaci\u00f3n",
+    "haveAccount": "\u00bfYa tienes cuenta? Inicia sesi\u00f3n"
+  },
+  "lang": {
+    "language": "Idioma"
+  },
+  "theme": {
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "onboarding": {
+    "title": "Bienvenido a Rentline",
+    "landlordCta": "Soy Propietario / Agencia",
+    "tenantCta": "Soy Inquilino"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "properties": "Propiedades",
+    "units": "Unidades",
+    "leases": "Contratos",
+    "maintenance": "Mantenimiento",
+    "tenants": "Inquilinos",
+    "invites": "Invitaciones",
+    "settings": "Configuraci\u00f3n"
+  },
+  "placeholder": {
+    "comingSoon": "Esta p\u00e1gina est\u00e1 preparada para la funcionalidad futura.",
+    "propertiesDesc": "Administra propiedades: crear, editar, eliminar y subir im\u00e1genes.",
+    "unitsDesc": "Administra unidades dentro de una propiedad y sus atributos.",
+    "leasesDesc": "Administra contratos, evita solapamientos por unidad.",
+    "maintenanceDesc": "Env\u00eda y sigue solicitudes de mantenimiento.",
+    "tenantsDesc": "Administra inquilinos en tu organizaci\u00f3n.",
+    "invitesDesc": "Invita inquilinos a tu organizaci\u00f3n."
+  },
+  "dashboard": {
+    "org": "Organizaci\u00f3n",
+    "type": "Tipo",
+    "properties": "Propiedades",
+    "units": "Unidades",
+    "view": "Ver"
+  }
+}

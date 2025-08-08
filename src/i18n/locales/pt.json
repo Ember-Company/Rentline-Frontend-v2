@@ -1,0 +1,60 @@
+{
+  "app": {
+    "title": "Rentline",
+    "logout": "Sair"
+  },
+  "auth": {
+    "login": "Entrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "registerOrg": "Registrar Organiza\u00e7\u00e3o",
+    "displayName": "Nome de exibi\u00e7\u00e3o",
+    "orgName": "Nome da organiza\u00e7\u00e3o",
+    "orgType": "Tipo de organiza\u00e7\u00e3o",
+    "landlord": "Propriet\u00e1rio",
+    "agency": "Imobili\u00e1ria",
+    "tenant": "Inquilino",
+    "acceptInvite": "Aceitar Convite",
+    "haveAccount": "J\u00e1 tem conta? Entrar"
+  },
+  "lang": {
+    "language": "Idioma"
+  },
+  "theme": {
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  },
+  "onboarding": {
+    "title": "Bem-vindo ao Rentline",
+    "landlordCta": "Sou Propriet\u00e1rio / Imobili\u00e1ria",
+    "tenantCta": "Sou Inquilino"
+  },
+  "nav": {
+    "dashboard": "Painel",
+    "properties": "Im\u00f3veis",
+    "units": "Unidades",
+    "leases": "Contratos",
+    "maintenance": "Manuten\u00e7\u00e3o",
+    "tenants": "Inquilinos",
+    "invites": "Convites",
+    "settings": "Configura\u00e7\u00f5es"
+  },
+  "placeholder": {
+    "comingSoon": "Esta p\u00e1gina est\u00e1 preparada para funcionalidades futuras.",
+    "propertiesDesc": "Gerencie im\u00f3veis: criar, editar, excluir e enviar imagens.",
+    "unitsDesc": "Gerencie unidades dentro de um im\u00f3vel e seus atributos.",
+    "leasesDesc": "Gerencie contratos e evite sobreposi\u00e7\u00e3o por unidade.",
+    "maintenanceDesc": "Abra e acompanhe solicita\u00e7\u00f5es de manuten\u00e7\u00e3o.",
+    "tenantsDesc": "Gerencie inquilinos da sua organiza\u00e7\u00e3o.",
+    "invitesDesc": "Convide inquilinos para sua organiza\u00e7\u00e3o."
+  },
+  "dashboard": {
+    "org": "Organiza\u00e7\u00e3o",
+    "type": "Tipo",
+    "properties": "Im\u00f3veis",
+    "units": "Unidades",
+    "view": "Ver"
+  }
+}
