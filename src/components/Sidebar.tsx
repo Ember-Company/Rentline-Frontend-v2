@@ -17,6 +17,7 @@ import {
   IconSearch,
   IconUserCircle,
 } from '@tabler/icons-react';
+import { Input } from '@heroui/react';
 
 // Helper to join class names conditionally without introducing truthy/falsey values.
 function cn(...classes: Array<string | false | undefined>): string {
@@ -29,7 +30,7 @@ interface NavItem {
   icon: React.ReactNode;
 }
 
-const NAV_SECTIONS: Array<{ title: string; items: NavItem[] }> = [
+const NAV_SECTIONS: Array<{ title?: string; items: NavItem[] }> = [
   {
     title: 'Overview',
     items: [
@@ -44,32 +45,32 @@ const NAV_SECTIONS: Array<{ title: string; items: NavItem[] }> = [
     ],
   },
   {
-    title: 'Leasing',
+    // title: 'Leasing',
     items: [
       { to: '/leases', label: 'Leases', icon: <IconFileDescription className="w-5 h-5" /> },
     ],
   },
   {
-    title: 'People',
+    // title: 'People',
     items: [
       { to: '/tenants', label: 'Tenants', icon: <IconUsers className="w-5 h-5" /> },
       { to: '/invites', label: 'Invites', icon: <IconMailPlus className="w-5 h-5" /> },
     ],
   },
   {
-    title: 'Finances',
+    // title: 'Finances',
     items: [
       { to: '/reports', label: 'Reports', icon: <IconChartPie className="w-5 h-5" /> },
     ],
   },
   {
-    title: 'Maintenance',
+    // title: 'Maintenance',
     items: [
       { to: '/maintenance', label: 'Maintenance', icon: <IconTools className="w-5 h-5" /> },
     ],
   },
   {
-    title: 'Calendar',
+    // title: 'Calendar',
     items: [
       { to: '/calendar', label: 'Calendar', icon: <IconCalendarEvent className="w-5 h-5" /> },
     ],
@@ -118,27 +119,24 @@ export default function Sidebar(): JSX.Element {
           <IconHome2 className="w-6 h-6" />
           {!collapsed && <span className="font-semibold text-lg">Rentline</span>}
         </div>
-        <div className="relative">
-          <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground-400" />
-          <input
+        <Input
+        variant='faded'
             type="text"
             placeholder={collapsed ? '' : 'Search'}
             className={cn(
-              'w-full rounded-md border border-divider bg-content2 py-1 pl-8 pr-2 text-sm placeholder:text-foreground-400',
               collapsed && 'pl-2 text-center',
             )}
           />
-        </div>
       </div>
       {/* Navigation items */}
-      <nav className="flex flex-col gap-4 overflow-y-auto px-4">
+      <nav className="flex flex-col gap-1 overflow-y-auto px-4">
         {NAV_SECTIONS.map((section) => (
-          <div key={section.title} className="flex flex-col gap-1">
-            {!collapsed && (
+          <div key={section.title} className="flex flex-col gap-0">
+            {/* {!collapsed && (
               <div className="text-xs font-medium uppercase tracking-wide text-foreground-500 px-2">
                 {section.title}
               </div>
-            )}
+            )} */}
             {section.items.map((item) => {
               const active = router.location.pathname === item.to;
               return (
@@ -147,7 +145,7 @@ export default function Sidebar(): JSX.Element {
                   to={item.to}
                   className={cn(
                     'flex items-center gap-3 rounded-md px-2 py-2 text-sm hover:bg-content2 transition-colors',
-                    active && 'bg-primary/20 text-primary',
+                    active && 'bg-primary/10 text-primary',
                   )}
                   aria-current={active ? 'page' : undefined}
                 >
@@ -169,7 +167,7 @@ export default function Sidebar(): JSX.Element {
           {collapsed ? <IconChevronRight className="h-5 w-5" /> : <IconChevronLeft className="h-5 w-5" />}
           {!collapsed && <span>{collapsed ? 'Expand' : 'Collapse'}</span>}
         </button>
-        <div className={cn('flex items-center gap-3 px-2', collapsed && 'justify-center')}> 
+        <div className={cn('flex items-center gap-3 px-2', collapsed && 'justify-center')}>
           <IconUserCircle className="h-6 w-6" />
           {!collapsed && (
             <div className="text-sm">
