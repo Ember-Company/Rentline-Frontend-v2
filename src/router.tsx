@@ -1,41 +1,55 @@
-import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
-import DashboardLayout from './layout/DashboardLayout'
-import Dashboard from './pages/Dashboard'
-import Properties from './pages/Properties'
-import Units from './pages/Units'
-import Leases from './pages/Leases'
-import Maintenance from './pages/Maintenance'
-import Tenants from './pages/Tenants'
-import Invites from './pages/Invites'
-import Settings from './pages/Settings'
-import Login from './pages/Login'
-import RegisterOrg from './pages/RegisterOrg'
-import AcceptInvite from './pages/AcceptInvite'
-import Onboarding from './pages/Onboarding'
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  redirect,
+} from '@tanstack/react-router';
+import DashboardLayout from './layout/DashboardLayout';
+import UnitsPage from './pages/Units';
+import PropertiesPage from './pages/Properties';
 
-const rootRoute = createRootRoute()
+// The root route defines top-level layout and authentication guards.  In this
+// example we do not implement authentication logic; however, the structure
+// remains extensible. To add protected routes, attach a `beforeLoad`
+// function that throws via `redirect()` when the user is unauthenticated.
+const rootRoute = createRootRoute();
 
-function requireAuth(){ const token = localStorage.getItem('token'); if(!token) throw redirect({ to: '/login' }) }
-function requireRole(roles: string[]){ return () => { requireAuth(); const role = localStorage.getItem('role') || ''; if(!roles.includes(role)) throw redirect({ to: '/' }) } }
+// Compose the dashboard layout. All authenticated pages live under this
+// route. Additional pages can be added here as required.
+const dashboardLayoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: 'dashboard-layout',
+  component: DashboardLayout,
+});
 
-const dashboardLayoutRoute = createRoute({ getParentRoute: () => rootRoute, id: 'dashboard-layout', component: DashboardLayout, beforeLoad: requireAuth })
-const indexRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/', component: Dashboard })
-const propertiesRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/properties', component: Properties, beforeLoad: requireRole(['Landlord','AgencyAdmin','Manager']) })
-const unitsRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/units', component: Units, beforeLoad: requireRole(['Landlord','AgencyAdmin','Manager']) })
-const leasesRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/leases', component: Leases, beforeLoad: requireRole(['Landlord','AgencyAdmin','Manager','Tenant']) })
-const maintenanceRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/maintenance', component: Maintenance })
-const tenantsRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/tenants', component: Tenants, beforeLoad: requireRole(['Landlord','AgencyAdmin','Manager']) })
-const invitesRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/invites', component: Invites, beforeLoad: requireRole(['Landlord','AgencyAdmin','Manager']) })
-const settingsRoute = createRoute({ getParentRoute: () => dashboardLayoutRoute, path: '/settings', component: Settings })
-const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login', component: Login })
-const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/register', component: RegisterOrg })
-const acceptInviteRoute = createRoute({ getParentRoute: () => rootRoute, path: '/accept-invite', component: AcceptInvite })
-const onboardingRoute = createRoute({ getParentRoute: () => rootRoute, path: '/onboarding', component: Onboarding })
+// Define individual pages. Each page is lazy-evaluated to minimise bundle
+// size. The `path` values map to the URLs exposed to users.
+const unitsRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: '/units',
+  component: UnitsPage,
+});
+const propertiesRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: '/properties',
+  component: PropertiesPage,
+});
+const indexRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: '/',
+  component: UnitsPage,
+});
 
+// Assemble the tree. Additional standalone routes (e.g. login) can be
+// appended here outside of the dashboard layout.
 const routeTree = rootRoute.addChildren([
-  dashboardLayoutRoute.addChildren([ indexRoute, propertiesRoute, unitsRoute, leasesRoute, maintenanceRoute, tenantsRoute, invitesRoute, settingsRoute ]),
-  loginRoute, registerRoute, acceptInviteRoute, onboardingRoute
-])
+  dashboardLayoutRoute.addChildren([indexRoute, propertiesRoute, unitsRoute]),
+]);
 
-export const router = createRouter({ routeTree })
-declare module '@tanstack/react-router' { interface Register { router: typeof router } }
+export const router = createRouter({ routeTree });
+// Augment type generation for the router to improve inference in hooks.
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}

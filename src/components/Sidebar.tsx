@@ -1,7 +1,5 @@
-import * as React from 'react'
-import { Link, useRouterState } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
-import { auth, Role } from '../lib/auth'
+import React from 'react';
+import { Link, useRouterState } from '@tanstack/react-router';
 import {
   IconLayoutGrid,
   IconBuildingSkyscraper,
@@ -13,136 +11,174 @@ import {
   IconSettings,
   IconChevronLeft,
   IconChevronRight,
-} from '@tabler/icons-react'
+  IconChartPie,
+  IconCalendarEvent,
+  IconReportAnalytics,
+  IconSearch,
+  IconUserCircle,
+} from '@tabler/icons-react';
 
-/** tiny class combiner */
-function cn(...a: Array<string | false | undefined>) {
-  return a.filter(Boolean).join(' ')
+// Helper to join class names conditionally without introducing truthy/falsey values.
+function cn(...classes: Array<string | false | undefined>): string {
+  return classes.filter(Boolean).join(' ');
 }
 
-type NavLink = {
-  to: string
-  labelKey: string  // i18n key (e.g. 'nav.properties')
-  icon: React.ReactNode
-  roles: Role[] | 'any'
+interface NavItem {
+  to: string;
+  label: string;
+  icon: React.ReactNode;
 }
 
-const OWNER_ROLES: Role[] = ['Landlord', 'AgencyAdmin', 'Manager']
-const TENANT_ROLES: Role[] = ['Tenant']
+const NAV_SECTIONS: Array<{ title: string; items: NavItem[] }> = [
+  {
+    title: 'Overview',
+    items: [
+      { to: '/', label: 'Dashboard', icon: <IconLayoutGrid className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'Portfolio',
+    items: [
+      { to: '/properties', label: 'Properties', icon: <IconBuildingSkyscraper className="w-5 h-5" /> },
+      { to: '/units', label: 'Units', icon: <IconHome2 className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'Leasing',
+    items: [
+      { to: '/leases', label: 'Leases', icon: <IconFileDescription className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'People',
+    items: [
+      { to: '/tenants', label: 'Tenants', icon: <IconUsers className="w-5 h-5" /> },
+      { to: '/invites', label: 'Invites', icon: <IconMailPlus className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'Finances',
+    items: [
+      { to: '/reports', label: 'Reports', icon: <IconChartPie className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'Maintenance',
+    items: [
+      { to: '/maintenance', label: 'Maintenance', icon: <IconTools className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'Calendar',
+    items: [
+      { to: '/calendar', label: 'Calendar', icon: <IconCalendarEvent className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'Documents',
+    items: [
+      { to: '/documents', label: 'Documents', icon: <IconFileDescription className="w-5 h-5" /> },
+    ],
+  },
+  {
+    title: 'Reports',
+    items: [
+      { to: '/reports', label: 'Reports', icon: <IconReportAnalytics className="w-5 h-5" /> },
+    ],
+  },
+];
 
-const LINKS: NavLink[] = [
-  { to: '/',               labelKey: 'nav.dashboard',   icon: <IconLayoutGrid className="h-5 w-5" />, roles: 'any' },
-  { to: '/properties',     labelKey: 'nav.properties',  icon: <IconBuildingSkyscraper className="h-5 w-5" />, roles: OWNER_ROLES },
-  { to: '/units',          labelKey: 'nav.units',       icon: <IconHome2 className="h-5 w-5" />, roles: OWNER_ROLES },
-  { to: '/leases',         labelKey: 'nav.leases',      icon: <IconFileDescription className="h-5 w-5" />, roles: [...OWNER_ROLES, ...TENANT_ROLES] },
-  { to: '/maintenance',    labelKey: 'nav.maintenance', icon: <IconTools className="h-5 w-5" />, roles: 'any' },
-  { to: '/tenants',        labelKey: 'nav.tenants',     icon: <IconUsers className="h-5 w-5" />, roles: OWNER_ROLES },
-  { to: '/invites',        labelKey: 'nav.invites',     icon: <IconMailPlus className="h-5 w-5" />, roles: OWNER_ROLES },
-  { to: '/settings',       labelKey: 'nav.settings',    icon: <IconSettings className="h-5 w-5" />, roles: 'any' },
-]
-
-export default function Sidebar() {
-  const { t } = useTranslation()
-  const router = useRouterState()
-  const role = auth.role() ?? 'Viewer'
-
-  // collapse state saved between reloads
+/**
+ * A collapsible navigation sidebar that organises primary application
+ * destinations into logical sections. It includes a quick‑access search
+ * control at the top and a user section at the bottom. The collapse
+ * state is persisted in local storage to ensure a consistent experience
+ * across reloads. Routing awareness is achieved via `useRouterState`.
+ */
+export default function Sidebar(): JSX.Element {
+  const router = useRouterState();
   const [collapsed, setCollapsed] = React.useState<boolean>(() => {
-    return localStorage.getItem('sidebar-collapsed') === '1'
-  })
+    return localStorage.getItem('sidebar-collapsed') === '1';
+  });
   React.useEffect(() => {
-    localStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0')
-  }, [collapsed])
-
-  // filter by role
-  const visibleLinks = React.useMemo(
-    () =>
-      LINKS.filter((l) => l.roles === 'any' || l.roles.includes(role)),
-    [role]
-  )
+    localStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0');
+  }, [collapsed]);
 
   return (
     <aside
       className={cn(
-        'sticky top-0 z-20 h-[calc(100vh-64px)] md:h-[calc(100vh-64px)]', // assuming Topbar ~64px
-        'border-r border-divider backdrop-blur',
-        'bg-gradient-to-b from-content2/60 to-transparent',
+        'sticky top-0 z-20 h-full bg-content1 border-r border-divider shadow-md',
         collapsed ? 'w-20' : 'w-64',
-        'hidden md:flex flex-col'
       )}
       aria-label="Sidebar"
     >
-      {/* Brand */}
-      <div className="flex items-center gap-3 px-3 pt-3 pb-2">
-        <div className="h-7 w-7 rounded-lg bg-foreground/90 dark:bg-foreground/90" />
-        {!collapsed && (
-          <div className="min-w-0">
-            <div className="truncate text-sm font-semibold tracking-wide">Rentline</div>
-            <div className="text-xs text-foreground-500">{role}</div>
-          </div>
-        )}
+      {/* Brand and search */}
+      <div className="flex flex-col gap-3 p-4">
+        <div className="flex items-center gap-2">
+          <IconHome2 className="w-6 h-6" />
+          {!collapsed && <span className="font-semibold text-lg">Rentline</span>}
+        </div>
+        <div className="relative">
+          <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground-400" />
+          <input
+            type="text"
+            placeholder={collapsed ? '' : 'Search'}
+            className={cn(
+              'w-full rounded-md border border-divider bg-content2 py-1 pl-8 pr-2 text-sm placeholder:text-foreground-400',
+              collapsed && 'pl-2 text-center',
+            )}
+          />
+        </div>
       </div>
-
-      {/* Nav */}
-      <nav className="mt-2 grid gap-1 px-2 overflow-y-auto">
-        {visibleLinks.map((item) => {
-          const active = router.location.pathname === item.to
-          return (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={cn(
-                'group relative flex items-center gap-3 rounded-large px-3 py-2',
-                'transition-colors',
-                active
-                  ? 'bg-primary/10 text-primary-600 dark:text-primary-400'
-                  : 'hover:bg-content2 text-foreground'
-              )}
-            >
-              <div
-                className={cn(
-                  'grid place-items-center rounded-md',
-                  'h-8 w-8 shrink-0',
-                  active ? 'bg-primary/20' : 'bg-content1 group-hover:bg-content2'
-                )}
-              >
-                {item.icon}
+      {/* Navigation items */}
+      <nav className="flex flex-col gap-4 overflow-y-auto px-4">
+        {NAV_SECTIONS.map((section) => (
+          <div key={section.title} className="flex flex-col gap-1">
+            {!collapsed && (
+              <div className="text-xs font-medium uppercase tracking-wide text-foreground-500 px-2">
+                {section.title}
               </div>
-              {!collapsed && (
-                <span className="truncate text-sm font-medium">
-                  {t(item.labelKey)}
-                </span>
-              )}
-
-              {/* active indicator bar */}
-              {active && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary" />
-              )}
-            </Link>
-          )
-        })}
+            )}
+            {section.items.map((item) => {
+              const active = router.location.pathname === item.to;
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={cn(
+                    'flex items-center gap-3 rounded-md px-2 py-2 text-sm hover:bg-content2 transition-colors',
+                    active && 'bg-primary/20 text-primary',
+                  )}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.icon}
+                  {!collapsed && <span>{item.label}</span>}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
-
-      {/* Footer: collapse toggle */}
-      <div className="mt-auto p-2">
+      {/* Footer with collapse toggle and user */}
+      <div className="mt-auto p-4 flex flex-col gap-3">
         <button
-          onClick={() => setCollapsed((v) => !v)}
-          className={cn(
-            'flex w-full items-center justify-center gap-2 rounded-large border border-divider',
-            'bg-content1 hover:bg-content2 px-3 py-2 text-sm'
-          )}
+          onClick={() => setCollapsed((prev) => !prev)}
+          className="flex w-full items-center justify-center gap-2 rounded-md border border-divider bg-content2 px-3 py-2 text-sm hover:bg-content3"
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          {collapsed ? (
-            <IconChevronRight className="h-5 w-5" />
-          ) : (
-            <>
-              <IconChevronLeft className="h-5 w-5" />
-              <span>Collapse</span>
-            </>
-          )}
+          {collapsed ? <IconChevronRight className="h-5 w-5" /> : <IconChevronLeft className="h-5 w-5" />}
+          {!collapsed && <span>{collapsed ? 'Expand' : 'Collapse'}</span>}
         </button>
+        <div className={cn('flex items-center gap-3 px-2', collapsed && 'justify-center')}> 
+          <IconUserCircle className="h-6 w-6" />
+          {!collapsed && (
+            <div className="text-sm">
+              <div className="font-medium">Theresa Webb</div>
+              <div className="text-foreground-500 text-xs">mike@gmc.com</div>
+            </div>
+          )}
+        </div>
       </div>
     </aside>
-  )
+  );
 }

@@ -1,6 +1,10 @@
-import { Card } from '@heroui/react'
-import { useTranslation } from 'react-i18next'
-export default function Page(){
-  const { t } = useTranslation()
-  return <div className='p-6 grid gap-4'><h1 className='text-2xl font-semibold'>Properties</h1><Card className='p-6'><p className='text-foreground-500'>{t('placeholder.comingSoon')}</p><p className='mt-2'>{t('placeholder.propertiesDesc')}</p></Card></div>
+import React from 'react';
+
+export default function PropertiesPage(): JSX.Element {
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-semibold">Properties</h1>
+      <p className="mt-2 text-foreground-500">This section is under construction.</p>
+    </div>
+  );
 }

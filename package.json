@@ -21,7 +21,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.0.1",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^4.5.0",
+    "react-hook-form": "^7.50.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
@@ -30,6 +32,8 @@
     "@vitejs/plugin-react-swc": "^3.7.0",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.5.4",
-    "vite": "^5.4.2"
+    "vite": "^5.4.2",
+    "vitest": "^1.5.0",
+    "@testing-library/react": "^14.2.1"
   }
 }
